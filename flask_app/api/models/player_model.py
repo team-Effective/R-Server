@@ -12,6 +12,9 @@ class PlayerModel(db.Model):
     alive_count = db.Column(db.int, nullable=False, default=0)
     now_game = db.Column(db.String(32), nullable=True)
 
+    # GamePlayerModelにplayerという名前で参照させてあげることを宣言
+    game_player_model = db.relationship("GamePlayerModel", backref="player")
+
     # プレイヤーの全件取得
     def getPlayerList():
         try:

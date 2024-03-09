@@ -9,6 +9,9 @@ class GameModel(db.Model):
     host_id = db.Column(db.varchar(32), db.ForeignKey("host.host_id"))
     game_title = db.Column(db.String(32), nullable=False)
 
+    # GamePlayerModelにgameという名前で参照させてあげることを宣言
+    game_player_model = db.relationship("GamePlayerModel", backref="game")
+
     # ゲームの主催者単位取得
     def getGameListOfHost(requested_host_id):
         try:
