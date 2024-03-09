@@ -11,6 +11,9 @@ class HostModel(db.Model):
     host_count = db.Column(db.int, nullable=False, default=0)
     now_host = db.Column(db.String(32), nullable=True)
 
+    # GameModelにhostという名前で参照させてあげることを宣言
+    game_model = db.relationship("GameModel", backref="host")
+
     # 主催者の一件取得
     def getHost(requested_host_id):
         try:
@@ -20,7 +23,6 @@ class HostModel(db.Model):
                 .first()
             )
         except Exception as e:
-            db.session.rollback()
             abort(400, e.args)
         if get_host == None:
             return None

@@ -17,7 +17,6 @@ class PlayerModel(db.Model):
         try:
             get_player_list = db.session.query(PlayerModel).all()
         except Exception as e:
-            db.session.rollback()
             abort(400, e.args)
         if get_player_list == None:
             return []
@@ -33,7 +32,6 @@ class PlayerModel(db.Model):
                 .first()
             )
         except Exception as e:
-            db.session.rollback()
             abort(400, e.args)
         if get_player == None:
             return None
