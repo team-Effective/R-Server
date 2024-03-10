@@ -1,16 +1,10 @@
-from api.database import db, ma
+from api.database import db, ma, metadata_obj
 from flask import abort
 from sqlalchemy import and_
 
 
 class GamePlayerModel(db.Model):
-    __tablename__ = "game_player"
-
-    game_id = db.Column(db.varchar(32), db.ForeignKey("game.game_id"), primary_key=True)
-    player_id = db.Column(
-        db.varchar(32), db.ForeignKey("player.player_id"), primary_key=True
-    )
-    now_alive = db.Column(db.Boolean, nullable=False, default=True)
+    __table__ = "game_player"
 
     # ゲームプレイヤーリストの取得
     def getGamePlayerList(requested_game_id):
@@ -60,11 +54,6 @@ class GamePlayerModel(db.Model):
         return registering_game_Player
 
 
-class GamePlayerSchema(ma.ModelSchema):
+class GamePlayerSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = GamePlayerModel
-        fields = (
-            "game_id",
-            "player_id",
-            "now_alive",
-        )

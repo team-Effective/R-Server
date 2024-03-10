@@ -1,19 +1,9 @@
-from api.database import db, ma
+from api.database import db, ma, metadata_obj
 from flask import abort
 
 
 class PlayerModel(db.Model):
-    __tablename__ = "player"
-
-    player_id = db.Column(db.varchar(32), primary_key=True)
-    player_name = db.Column(db.varchar(16), nullable=False)
-    player_password = db.Column(db.varchar(255), nullable=False)
-    match_count = db.Column(db.int, nullable=False, default=0)
-    alive_count = db.Column(db.int, nullable=False, default=0)
-    now_game = db.Column(db.String(32), nullable=True)
-
-    # GamePlayerModelにplayerという名前で参照させてあげることを宣言
-    game_player_model = db.relationship("GamePlayerModel", backref="player")
+    __table__ = "player"
 
     # プレイヤーの全件取得
     def getPlayerList():
@@ -60,14 +50,6 @@ class PlayerModel(db.Model):
         return registering_player
 
 
-class PlayerSchema(ma.ModelSchema):
+class PlayerSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = PlayerModel
-        fields = (
-            "player_id",
-            "player_name",
-            "player_password",
-            "match_count",
-            "alive_count",
-            "now_game",
-        )

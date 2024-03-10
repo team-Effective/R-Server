@@ -1,16 +1,9 @@
-from api.database import db, ma
+from api.database import db, ma, metadata_obj
 from flask import abort
 
 
 class GameModel(db.Model):
-    __tablename__ = "game"
-
-    game_id = db.Column(db.varchar(32), primary_key=True)
-    host_id = db.Column(db.varchar(32), db.ForeignKey("host.host_id"))
-    game_title = db.Column(db.String(32), nullable=False)
-
-    # GamePlayerModelにgameという名前で参照させてあげることを宣言
-    game_player_model = db.relationship("GamePlayerModel", backref="game")
+    __table__ = "game"
 
     # ゲームの主催者単位取得
     def getGameListOfHost(requested_host_id):
@@ -55,11 +48,6 @@ class GameModel(db.Model):
         return registering_game
 
 
-class GameSchema(ma.ModelSchema):
+class GameSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = GameModel
-        fields = (
-            "game_id",
-            "host_id",
-            "game_title",
-        )
