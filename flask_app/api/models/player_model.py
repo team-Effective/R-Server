@@ -38,9 +38,6 @@ class PlayerModel(db.Model):
                 player_id=requested_player.get("player_id"),
                 player_name=requested_player.get("player_name"),
                 player_password=requested_player.get("player_password"),
-                match_count=requested_player.get("match_count"),
-                alive_count=requested_player.get("alive_count"),
-                now_game=requested_player.get("now_game"),
             )
             db.session.add(registering_player)
             db.session.commit()

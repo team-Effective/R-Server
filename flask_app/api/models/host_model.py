@@ -27,8 +27,6 @@ class HostModel(db.Model):
                 host_id=requested_host.get("host_id"),
                 host_name=requested_host.get("host_name"),
                 host_password=requested_host.get("host_password"),
-                host_count=requested_host.get("host_count"),
-                now_host=requested_host.get("now_host"),
             )
             db.session.add(registering_host)
             db.session.commit()
