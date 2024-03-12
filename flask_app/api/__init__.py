@@ -15,6 +15,8 @@ def create_app():
     with app.app_context():
         init_db(app)
 
+    from .views.host_view.host_select import host_select
+    app.register_blueprint(host_select, url_prefix="/api/host/select")
     return app
 
 
