@@ -35,6 +35,31 @@ class HostModel(db.Model):
             abort(400, e.args)
         return registering_host
 
+    # 主催者の更新
+    def updateHost(requested_host):
+        try:
+            updating_host = (
+                db.session.query(HostModel)
+                .filter(
+                    HostModel.__table__.columns.host_id == requested_host.get("host_id")
+                )
+                .first()
+            )
+            if requested_host.get("host_name") is not None:
+                updating_host.host_name = requested_host.get("host_name")
+            if requested_host.get("host_password") is not None:
+                updating_host.host_password = requested_host.get("host_password")
+            if requested_host.get("host_count") is not None:
+                updating_host.host_count = requested_host.get("host_count")
+            if requested_host.get("now_host") is not None:
+                updating_host.now_host = requested_host.get("now_host")
+        except Exception as e:
+            db.session.rollback()
+            abort(400, e.args)
+        db.session.add(updating_host)
+        db.session.commit()
+        return updating_host
+
 
 class HostSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
