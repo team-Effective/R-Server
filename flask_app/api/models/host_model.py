@@ -51,8 +51,7 @@ class HostModel(db.Model):
                 updating_host.host_password = requested_host.get("host_password")
             if requested_host.get("host_count") is not None:
                 updating_host.host_count = requested_host.get("host_count")
-            if requested_host.get("now_host") is not None:
-                updating_host.now_host = requested_host.get("now_host")
+            updating_host.now_host = requested_host.get("now_host")
         except Exception as e:
             db.session.rollback()
             abort(400, e.args)
