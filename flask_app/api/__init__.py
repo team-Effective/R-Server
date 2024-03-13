@@ -37,6 +37,10 @@ def create_app():
     app.register_blueprint(host_player_select, url_prefix="/api/host_player/select")
     app.register_blueprint(host_player_insert, url_prefix="/api/host_player/insert")
 
+    from .views.game_view.game_select import game_select
+
+    app.register_blueprint(game_select, url_prefix="/api/game/select")
+
     return app
 
 
