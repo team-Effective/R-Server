@@ -27,8 +27,8 @@ class MissionModel(db.Model):
         try:
             inserting_mission = MissionModel(
                 mission_id=requested_mission.get("mission_id"),
-                host_id=requested_mission.get("host_id"),
                 mission_title=requested_mission.get("mission_title"),
+                mission_detail=requested_mission.get("mission_detail"),
             )
             db.session.add(inserting_mission)
             db.session.commit()
