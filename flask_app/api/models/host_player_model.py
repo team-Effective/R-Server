@@ -36,3 +36,7 @@ class HostPlayerModel(db.Model):
 class HostPlayerSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = HostPlayerModel
+        fields = (
+            "host_id",
+            "player_id",
+        )
