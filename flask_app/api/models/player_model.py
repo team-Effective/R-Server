@@ -8,17 +8,17 @@ class PlayerModel(db.Model):
     # プレイヤーの一件取得
     def selectPlayer(requested_player_id):
         try:
-            get_player = (
+            select_player = (
                 db.session.query(PlayerModel)
                 .filter(PlayerModel.__table__.columns.player_id == requested_player_id)
                 .first()
             )
         except Exception as e:
             abort(400, e.args)
-        if get_player == None:
+        if select_player == None:
             return None
         else:
-            return get_player
+            return select_player
 
     # プレイヤーの登録
     def insertPlayer(requested_player):
@@ -63,3 +63,4 @@ class PlayerModel(db.Model):
 class PlayerSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = PlayerModel
+        fields = ("player_id", "player_name", "match_count", "alive_count", "now_game")

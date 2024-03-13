@@ -8,17 +8,17 @@ class HostModel(db.Model):
     # 主催者の一件取得
     def selectHost(requested_host_id):
         try:
-            get_host = (
+            select_host = (
                 db.session.query(HostModel)
                 .filter(HostModel.__table__.columns.host_id == requested_host_id)
                 .first()
             )
         except Exception as e:
             abort(400, e.args)
-        if get_host == None:
+        if select_host == None:
             return None
         else:
-            return get_host
+            return select_host
 
     # 主催者の登録
     def insertHost(requested_host):
@@ -64,3 +64,4 @@ class HostModel(db.Model):
 class HostSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = HostModel
+        fields = ("host_id", "host_name", "host_password", "host_count", "now_host")
