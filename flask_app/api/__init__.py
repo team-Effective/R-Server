@@ -43,6 +43,14 @@ def create_app():
     app.register_blueprint(game_select, url_prefix="/api/game/select")
     app.register_blueprint(game_insert, url_prefix="/api/game/insert")
 
+    from .views.game_player_view.game_player_select import game_player_select
+    from .views.game_player_view.game_player_insert import game_player_insert
+    from .views.game_player_view.game_player_update import game_player_update
+
+    app.register_blueprint(game_player_select, url_prefix="/api/game_player/select")
+    app.register_blueprint(game_player_insert, url_prefix="/api/game_player/insert")
+    app.register_blueprint(game_player_update, url_prefix="/api/game_player/update")
+
     return app
 
 

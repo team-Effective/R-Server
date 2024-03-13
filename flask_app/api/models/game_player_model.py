@@ -4,56 +4,82 @@ from sqlalchemy import and_
 
 
 class GamePlayerModel(db.Model):
-    __table__ = "game_player"
+    __table__ = metadata_obj.tables["game_player"]
 
     # ゲームプレイヤーリストの取得
-    def getGamePlayerList(requested_game_id):
+    def selectPlayerListOfGame(requested_game_id):
         try:
-            get_game_player_list = (
+            select_player_list_of_game = (
                 db.session.query(GamePlayerModel)
                 .filter(GamePlayerModel.__table__.columns.game_id == requested_game_id)
                 .all()
             )
         except Exception as e:
             abort(400, e.args)
-        return get_game_player_list
+        return select_player_list_of_game
 
     # ゲームプレイヤーの一件取得
-    def getGame(requested_game_id, requested_player_id):
+    def selectGamePlayer(requested_game_player):
         try:
-            get_game_player = (
+            select_game_player = (
                 db.session.query(GamePlayerModel)
                 .filter(
                     and_(
-                        GamePlayerModel.__table__.columns.game_id == requested_game_id,
+                        GamePlayerModel.__table__.columns.game_id
+                        == requested_game_player.get("game_id"),
                         GamePlayerModel.__table__.columns.player_id
-                        == requested_player_id,
+                        == requested_game_player.get("player_id"),
                     )
                 )
                 .first()
             )
         except Exception as e:
             abort(400, e.args)
-        if get_game_player == None:
+        if select_game_player == None:
             return None
         else:
-            return get_game_player
+            return select_game_player
 
     # ゲームプレイヤーの登録
-    def registGamePlayer(requested_game_Player):
+    def insertGamePlayer(requested_game_Player):
         try:
-            registering_game_Player = GamePlayerModel(
+            inserting_game_Player = GamePlayerModel(
                 game_id=requested_game_Player.get("game_id"),
                 player_id=requested_game_Player.get("player_id"),
             )
-            db.session.add(requested_game_Player)
+            db.session.add(inserting_game_Player)
             db.session.commit()
         except Exception as e:
             db.session.rollback()
             abort(400, e.args)
-        return registering_game_Player
+        return inserting_game_Player
+
+    # ゲームプレイヤーの更新
+    def updateGamePlayer(requested_game_player):
+        try:
+            updating_game_player = (
+                db.session.query(GamePlayerModel)
+                .filter(
+                    and_(
+                        GamePlayerModel.__table__.columns.game_id
+                        == requested_game_player.get("game_id"),
+                        GamePlayerModel.__table__.columns.player_id
+                        == requested_game_player.get("player_id"),
+                    )
+                )
+                .first()
+            )
+            if requested_game_player.get("now_alive") is not None:
+                updating_game_player.now_alive = requested_game_player.get("now_alive")
+        except Exception as e:
+            db.session.rollback()
+            abort(400, e.args)
+        db.session.add(updating_game_player)
+        db.session.commit()
+        return updating_game_player
 
 
 class GamePlayerSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = GamePlayerModel
+        fields = ("game_id", "player_id", "now_alive")
