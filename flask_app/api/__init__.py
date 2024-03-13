@@ -39,9 +39,11 @@ def create_app():
 
     from .views.game_view.game_select import game_select
     from .views.game_view.game_insert import game_insert
+    from .views.game_view.game_update import game_update
 
     app.register_blueprint(game_select, url_prefix="/api/game/select")
     app.register_blueprint(game_insert, url_prefix="/api/game/insert")
+    app.register_blueprint(game_update, url_prefix="/api/game/update")
 
     from .views.game_player_view.game_player_select import game_player_select
     from .views.game_player_view.game_player_insert import game_player_insert
