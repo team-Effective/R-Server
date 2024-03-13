@@ -35,7 +35,7 @@ class PlayerModel(db.Model):
         return inserting_player
 
     # プレイヤーの更新
-    def updateHost(requested_player):
+    def updatePlayer(requested_player):
         try:
             updating_player = (
                 db.session.query(PlayerModel)
