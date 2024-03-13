@@ -59,6 +59,12 @@ def create_app():
     app.register_blueprint(mission_select, url_prefix="/api/mission/select")
     app.register_blueprint(mission_insert, url_prefix="/api/mission/insert")
 
+    from .views.mission_player_view.mission_player_select import mission_player_select
+
+    app.register_blueprint(
+        mission_player_select, url_prefix="/api/mission_player/select"
+    )
+
     return app
 
 
