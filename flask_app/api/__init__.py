@@ -73,6 +73,10 @@ def create_app():
         mission_player_update, url_prefix="/api/mission_player/update"
     )
 
+    from .views.game_mission_view.game_mission_select import game_mission_select
+
+    app.register_blueprint(game_mission_select, url_prefix="/api/game_mission/select")
+
     return app
 
 
