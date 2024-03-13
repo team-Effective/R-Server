@@ -3,7 +3,7 @@ from flask import abort
 
 
 class PlayerModel(db.Model):
-    __table__ = "player"
+    __table__ = metadata_obj.tables["player"]
 
     # プレイヤーの一件取得
     def selectPlayer(requested_player_id):

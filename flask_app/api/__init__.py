@@ -23,6 +23,10 @@ def create_app():
     app.register_blueprint(host_insert, url_prefix="/api/host/insert")
     app.register_blueprint(host_update, url_prefix="/api/host/update")
 
+    from .views.player_view.player_select import player_select
+
+    app.register_blueprint(player_select, url_prefix="/api/player/select")
+
     return app
 
 
