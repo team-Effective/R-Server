@@ -43,7 +43,7 @@ def updateGameFinish():
                         "now_game": None,
                     }
                 )
-        select_game = GameModel.selectGame(requested_data.get("game_id"))
+        select_game = GameModel.selectGameOnce(requested_data.get("game_id"))
         HostModel.updateHost(
             {
                 "host_id": select_game.host_id,
@@ -56,7 +56,7 @@ def updateGameFinish():
             jsonify(
                 {
                     "code": 200,
-                    "update_game_death": player_schema.dump(select_game),
+                    "update_game_finish": player_schema.dump(select_game),
                 }
             )
         )

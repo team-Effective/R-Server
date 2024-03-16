@@ -28,9 +28,6 @@ def updateMissionSuccess():
         update_mission_player_success = MissionPlayerModel.updateMissionPlayer(
             update_player
         )
-        print(
-            f"\n\n\n update_mission_player_success を表示します\n{update_mission_player_success}\n"
-        )
         player_schema = MissionPlayerSchema(many=False)
 
         return make_response(

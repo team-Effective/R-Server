@@ -19,16 +19,18 @@ def insertMissionPlayer():
     if not "player_id" in requested_data:
         abort(400, "player_id is a required!!")
 
-    # try:
-    insert_mission_player = MissionPlayerModel.insertMissionPlayer(requested_data)
-    mission_player_schema = MissionPlayerSchema(many=False)
-    return make_response(
-        jsonify(
-            {
-                "code": 200,
-                "insert_player": mission_player_schema.dump(insert_mission_player),
-            }
+    try:
+        insert_mission_player = MissionPlayerModel.insertMissionPlayer(requested_data)
+        mission_player_schema = MissionPlayerSchema(many=False)
+        return make_response(
+            jsonify(
+                {
+                    "code": 200,
+                    "insert_mission_player": mission_player_schema.dump(
+                        insert_mission_player
+                    ),
+                }
+            )
         )
-    )
-    # except Exception as e:
-    #     abort(400, e.args)
+    except Exception as e:
+        abort(400, e.args)

@@ -22,7 +22,7 @@ class MissionPlayerModel(db.Model):
         return select_player_list_of_mission
 
     # ミッションプレイヤーの一件取得
-    def selectMissionPlayer(requested_mission_player):
+    def selectMissionPlayerOnce(requested_mission_player):
         try:
             select_mission_player = (
                 db.session.query(MissionPlayerModel)
@@ -59,31 +59,28 @@ class MissionPlayerModel(db.Model):
 
     # ミッションプレイヤーの更新
     def updateMissionPlayer(requested_mission_player):
-        # try:
-        print(
-            f"\n\n\n requested_mission_player を表示します\n{requested_mission_player}\n"
-        )
-        updating_mission_player = (
-            db.session.query(MissionPlayerModel)
-            .filter(
-                and_(
-                    MissionPlayerModel.__table__.columns.mission_id
-                    == requested_mission_player.get("mission_id"),
-                    MissionPlayerModel.__table__.columns.player_id
-                    == requested_mission_player.get("player_id"),
+        try:
+            updating_mission_player = (
+                db.session.query(MissionPlayerModel)
+                .filter(
+                    and_(
+                        MissionPlayerModel.__table__.columns.mission_id
+                        == requested_mission_player.get("mission_id"),
+                        MissionPlayerModel.__table__.columns.player_id
+                        == requested_mission_player.get("player_id"),
+                    )
                 )
-            )
-            .first()
-        )
-
-        if requested_mission_player.get("mission_success") is not None:
-            updating_mission_player.mission_success = requested_mission_player.get(
-                "mission_success"
+                .first()
             )
 
-        # except Exception as e:
-        #     db.session.rollback()
-        #     abort(400, e.args)
+            if requested_mission_player.get("mission_success") is not None:
+                updating_mission_player.mission_success = requested_mission_player.get(
+                    "mission_success"
+                )
+
+        except Exception as e:
+            db.session.rollback()
+            abort(400, e.args)
         db.session.add(updating_mission_player)
         db.session.commit()
         return updating_mission_player

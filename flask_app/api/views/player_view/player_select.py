@@ -13,6 +13,9 @@ def selectPlayer():
     requested_json = json.dumps(request.json)
     requested_data = json.loads(requested_json)
 
+    if not "player_id" in requested_data:
+        abort(400, "player_id is a required!!")
+
     try:
         select_player = PlayerModel.selectPlayer(requested_data.get("player_id"))
         player_schema = PlayerSchema(many=False)

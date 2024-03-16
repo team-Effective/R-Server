@@ -26,7 +26,7 @@ def insertHostPlayer():
             jsonify(
                 {
                     "code": 200,
-                    "insert_player": host_player_schema.dump(insert_host_player),
+                    "insert_host_player": host_player_schema.dump(insert_host_player),
                 }
             )
         )

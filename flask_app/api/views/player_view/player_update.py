@@ -16,9 +16,6 @@ def updatePlayer():
     if not "player_id" in requested_data:
         abort(400, "player_id is a required!!")
 
-    if not "player_name" in requested_data:
-        abort(400, "player_name is a required!!")
-
     try:
         update_player = PlayerModel.updatePlayer(requested_data)
         player_schema = PlayerSchema(many=False)

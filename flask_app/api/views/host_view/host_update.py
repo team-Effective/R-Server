@@ -16,11 +16,6 @@ def updateHost():
     if not "host_id" in requested_data:
         abort(400, "host_id is a required!!")
 
-    if not "host_name" in requested_data:
-        abort(400, "host_name is a required!!")
-
-    if not "host_password" in requested_data:
-        abort(400, "host_password is a required!!")
     try:
         update_host = HostModel.updateHost(requested_data)
         host_schema = HostSchema(many=False)

@@ -1,5 +1,5 @@
 from flask import request, make_response, jsonify, abort
-from api.models import GameMissionModel, GameMissionSchema, MissionModel
+from api.models import GameMissionModel, GameMissionSchema
 import json
 from flask import Blueprint
 
@@ -26,7 +26,9 @@ def insertGameMission():
             jsonify(
                 {
                     "code": 200,
-                    "insert_mission": game_mission_schema.dump(insert_game_mission),
+                    "insert_game_mission": game_mission_schema.dump(
+                        insert_game_mission
+                    ),
                 }
             )
         )

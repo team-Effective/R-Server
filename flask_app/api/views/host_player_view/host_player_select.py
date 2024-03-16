@@ -1,5 +1,5 @@
 from flask import request, make_response, jsonify, abort
-from api.models import HostPlayerModel, HostPlayerSchema, PlayerModel, PlayerSchema
+from api.models import HostPlayerModel, PlayerModel, PlayerSchema
 import json
 from flask import Blueprint
 
@@ -12,6 +12,9 @@ def selectHostPlayer():
     # jsonデータを取得する
     requested_json = json.dumps(request.json)
     requested_data = json.loads(requested_json)
+
+    if not "host_id" in requested_data:
+        abort(400, "host_id is a required!!")
 
     try:
         select_host_player_list = HostPlayerModel.selectPlayerListOfHost(

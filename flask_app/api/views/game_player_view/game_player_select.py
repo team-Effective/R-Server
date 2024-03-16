@@ -1,5 +1,5 @@
 from flask import request, make_response, jsonify, abort
-from api.models import GamePlayerModel, GamePlayerSchema, PlayerModel, PlayerSchema
+from api.models import GamePlayerModel, PlayerModel
 import json
 from flask import Blueprint
 
@@ -12,6 +12,9 @@ def selectPlayerListOfGame():
     # jsonデータを取得する
     requested_json = json.dumps(request.json)
     requested_data = json.loads(requested_json)
+
+    if not "game_id" in requested_data:
+        abort(400, "game_id is a required!!")
 
     try:
         select_player_list_of_game = GamePlayerModel.selectPlayerListOfGame(
@@ -50,13 +53,19 @@ def selectPlayerListOfGame():
 
 
 @game_player_select.route("/once", methods=["POST"])
-def selectGamePlayer():
+def selectGamePlayerOnce():
     # jsonデータを取得する
     requested_json = json.dumps(request.json)
     requested_data = json.loads(requested_json)
 
+    if not "game_id" in requested_data:
+        abort(400, "game_id is a required!!")
+
+    if not "player_id" in requested_data:
+        abort(400, "player_id is a required!!")
+
     try:
-        select_game_player = GamePlayerModel.selectGamePlayer(requested_data)
+        select_game_player = GamePlayerModel.selectGamePlayerOnce(requested_data)
         player_data = PlayerModel.selectPlayer(select_game_player.player_id)
         response_game_player = {
             "game_id": select_game_player.game_id,

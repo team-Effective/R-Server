@@ -25,15 +25,15 @@ def updateGameMissionFinish():
             "mission_id": requested_data.get("mission_id"),
             "mission_finish": True,
         }
-        update_game_mission_death = GameMissionModel.updateGameMission(update_mission)
+        update_game_mission_finish = GameMissionModel.updateGameMission(update_mission)
         mission_schema = GameMissionSchema(many=False)
 
         return make_response(
             jsonify(
                 {
                     "code": 200,
-                    "update_game_mission_death": mission_schema.dump(
-                        update_game_mission_death
+                    "update_game_mission_finish": mission_schema.dump(
+                        update_game_mission_finish
                     ),
                 }
             )
