@@ -18,7 +18,7 @@ class GameModel(db.Model):
         return select_game_list_of_host
 
     # ゲームの一件取得
-    def selectGame(requested_game_id):
+    def selectGameOnce(requested_game_id):
         try:
             select_game = (
                 db.session.query(GameModel)

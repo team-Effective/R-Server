@@ -1,5 +1,5 @@
 from flask import request, make_response, jsonify, abort
-from api.models import GameMissionModel, GameMissionSchema, MissionModel, MissionSchema
+from api.models import GameMissionModel, MissionModel
 import json
 from flask import Blueprint
 
@@ -12,6 +12,9 @@ def selectMissionListOfGame():
     # jsonデータを取得する
     requested_json = json.dumps(request.json)
     requested_data = json.loads(requested_json)
+
+    if not "game_id" in requested_data:
+        abort(400, "game_id is a required!!")
 
     try:
         select_mission_list_of_game = GameMissionModel.selectMissionListOfGame(
@@ -54,6 +57,12 @@ def selectGameMission():
     # jsonデータを取得する
     requested_json = json.dumps(request.json)
     requested_data = json.loads(requested_json)
+
+    if not "game_id" in requested_data:
+        abort(400, "game_id is a required!!")
+
+    if not "mission_id" in requested_data:
+        abort(400, "mission_id is a required!!")
 
     try:
         select_game_mission = GameMissionModel.selectGameMission(requested_data)

@@ -13,6 +13,9 @@ def selectMission():
     requested_json = json.dumps(request.json)
     requested_data = json.loads(requested_json)
 
+    if not "mission_id" in requested_data:
+        abort(400, "mission_id is a required!!")
+
     try:
         select_mission = MissionModel.selectMission(requested_data.get("mission_id"))
         mission_schema = MissionSchema(many=False)

@@ -14,7 +14,7 @@ def insertMission():
     requested_data = json.loads(requested_json)
 
     if not "mission_id" in requested_data:
-        abort(400, "player_id is a required!!")
+        abort(400, "mission_id is a required!!")
 
     if not "mission_title" in requested_data:
         abort(400, "mission_title is a required!!")
@@ -26,7 +26,7 @@ def insertMission():
             jsonify(
                 {
                     "code": 200,
-                    "insert_player": mission_schema.dump(insert_mission),
+                    "insert_mission": mission_schema.dump(insert_mission),
                 }
             )
         )

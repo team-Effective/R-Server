@@ -19,7 +19,7 @@ class GamePlayerModel(db.Model):
         return select_player_list_of_game
 
     # ゲームプレイヤーの一件取得
-    def selectGamePlayer(requested_game_player):
+    def selectGamePlayerOnce(requested_game_player):
         try:
             select_game_player = (
                 db.session.query(GamePlayerModel)

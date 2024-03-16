@@ -13,6 +13,9 @@ def selectGameListOfHost():
     requested_json = json.dumps(request.json)
     requested_data = json.loads(requested_json)
 
+    if not "host_id" in requested_data:
+        abort(400, "host_id is a required!!")
+
     try:
         select_game_list = GameModel.selectGameListOfHost(requested_data.get("host_id"))
         game_schema = GameSchema(many=True)
@@ -20,7 +23,7 @@ def selectGameListOfHost():
             jsonify(
                 {
                     "code": 200,
-                    "select_player_list": game_schema.dump(select_game_list),
+                    "select_game_list": game_schema.dump(select_game_list),
                 }
             )
         )
@@ -36,13 +39,16 @@ def selectGameListOfHost():
 
 
 @game_select.route("/once", methods=["POST"])
-def selectGame():
+def selectGameOnce():
     # jsonデータを取得する
     requested_json = json.dumps(request.json)
     requested_data = json.loads(requested_json)
 
+    if not "game_id" in requested_data:
+        abort(400, "game_id is a required!!")
+
     try:
-        select_game = GameModel.selectGame(requested_data.get("game_id"))
+        select_game = GameModel.selectGameOnce(requested_data.get("game_id"))
         game_schema = GameSchema(many=False)
         return make_response(
             jsonify(

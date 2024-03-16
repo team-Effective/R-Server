@@ -13,6 +13,9 @@ def selectHost():
     requested_json = json.dumps(request.json)
     requested_data = json.loads(requested_json)
 
+    if not "host_id" in requested_data:
+        abort(400, "host_id is a required!!")
+
     try:
         select_host = HostModel.selectHost(requested_data.get("host_id"))
         host_schema = HostSchema(many=False)
