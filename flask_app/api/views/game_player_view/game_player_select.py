@@ -1,5 +1,11 @@
 from flask import request, make_response, jsonify, abort
-from api.models import GamePlayerModel, PlayerModel
+from api.models import (
+    GamePlayerModel,
+    PlayerModel,
+    MissionPlayerModel,
+    GameMissionModel,
+    MissionModel,
+)
 import json
 from flask import Blueprint
 
@@ -37,6 +43,65 @@ def selectPlayerListOfGame():
                 {
                     "code": 200,
                     "select_game_player_list": select_game_player_list,
+                }
+            )
+        )
+
+    except AttributeError:
+        return make_response(
+            jsonify(
+                {
+                    "code": 500,
+                    "Internal Server Error": "Data does not exist.",
+                }
+            )
+        )
+
+
+@game_player_select.route("/game_player_mission", methods=["POST"])
+def selectMissionListOfGamePlayer():
+    # jsonデータを取得する
+    requested_json = json.dumps(request.json)
+    requested_data = json.loads(requested_json)
+
+    if not "game_id" in requested_data:
+        abort(400, "game_id is a required!!")
+
+    if not "player_id" in requested_data:
+        abort(400, "player_id is a required!!")
+
+    try:
+        select_mission_list_of_game = GameMissionModel.selectMissionListOfGame(
+            requested_data.get("game_id")
+        )
+        select_mission_list_of_player = MissionPlayerModel.selectMissionListOfPlayer(
+            requested_data.get("player_id")
+        )
+
+        select_mission_list_of_game_player = []
+        for select_mission_of_game in select_mission_list_of_game:
+            for select_mission_of_player in select_mission_list_of_player:
+                if (
+                    select_mission_of_game.mission_id
+                    == select_mission_of_player.mission_id
+                ):
+                    select_mission_of_game_player = MissionModel.selectMission(
+                        select_mission_of_player.mission_id
+                    )
+                    select_mission_list_of_game_player.append(
+                        {
+                            "game_id": select_mission_of_game.game_id,
+                            "player_id": select_mission_of_player.player_id,
+                            "mission_id": select_mission_of_game_player.mission_id,
+                            "mission_title": select_mission_of_game_player.mission_title,
+                        }
+                    )
+
+        return make_response(
+            jsonify(
+                {
+                    "code": 200,
+                    "select_mission_list_of_game_player": select_mission_list_of_game_player,
                 }
             )
         )

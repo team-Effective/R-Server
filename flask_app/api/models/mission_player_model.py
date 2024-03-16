@@ -6,7 +6,7 @@ from sqlalchemy import and_
 class MissionPlayerModel(db.Model):
     __table__ = metadata_obj.tables["mission_player"]
 
-    # ミッションプレイヤーリストの取得
+    # ミッションごとのプレイヤーリストの取得
     def selectPlayerListOfMission(requested_mission_id):
         try:
             select_player_list_of_mission = (
@@ -20,6 +20,21 @@ class MissionPlayerModel(db.Model):
         except Exception as e:
             abort(400, e.args)
         return select_player_list_of_mission
+
+    # プレイヤーごとのミッションリストの取得
+    def selectMissionListOfPlayer(requested_player_id):
+        try:
+            select_mission_list_of_player = (
+                db.session.query(MissionPlayerModel)
+                .filter(
+                    MissionPlayerModel.__table__.columns.player_id
+                    == requested_player_id
+                )
+                .all()
+            )
+        except Exception as e:
+            abort(400, e.args)
+        return select_mission_list_of_player
 
     # ミッションプレイヤーの一件取得
     def selectMissionPlayerOnce(requested_mission_player):
